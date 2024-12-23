@@ -10,7 +10,7 @@ type Game struct {
 }
 
 func (g *Game) Update() error {
-	g.Engine.Gravity(Vector2{X: 0, Y: 0.04})
+	g.Engine.Gravity(Vector2{X: 0, Y: 0.1})
 	g.Engine.Update(1)
 	return nil
 }

@@ -32,7 +32,7 @@ func main() {
 			},
 
 			2: {
-				Position: Vector2{X: 550, Y: 400},
+				Position: Vector2{X: 750, Y: 400},
 				Shape:    Circle{Radius: 40},
 				Color:    color.White,
 

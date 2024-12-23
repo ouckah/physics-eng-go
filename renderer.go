@@ -19,7 +19,12 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	for _, entity := range g.Engine.Entities {
-		vector.DrawFilledCircle(screen, float32(entity.Position.X), float32(entity.Position.Y), 20, color.White, true)
+		switch shape := entity.Shape.(type) {
+		case Circle:
+			vector.DrawFilledCircle(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Radius), color.White, true)
+		case Rectangle:
+			vector.DrawFilledRect(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Width), float32(shape.Height), color.White, true)
+		}
 	}
 }
 

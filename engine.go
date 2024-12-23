@@ -54,11 +54,11 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	// edge cases: a or b are frozen rigidbodies
 	// for now, simply reverse the velocity of the moving object
 	if a.IsFrozen {
-		b.Velocity = b.Velocity.MultiplyByScalar(-1)
+		b.Velocity = b.Velocity.MultiplyByScalar(-0.8)
 		return
 	}
 	if b.IsFrozen {
-		a.Velocity = a.Velocity.MultiplyByScalar(-1)
+		a.Velocity = a.Velocity.MultiplyByScalar(-0.8)
 		return
 	}
 
@@ -91,6 +91,6 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	*/
 
 	vA, vB := a.Velocity, b.Velocity
-	a.Velocity = vB
-	b.Velocity = vA
+	a.Velocity = vB.MultiplyByScalar(0.8)
+	b.Velocity = vA.MultiplyByScalar(0.8)
 }

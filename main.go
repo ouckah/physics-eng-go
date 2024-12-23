@@ -1,6 +1,7 @@
 package main
 
 import (
+	"image/color"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -11,9 +12,12 @@ func main() {
 	// setup physics engine
 	engine := &PhysicsEngine{
 		Entities: map[int]*RigidBody{
-			0: {Position: Vector2{X: 50, Y: 50}, Shape: Circle{Radius: 20}},
-			1: {Position: Vector2{X: 100, Y: 100}, Shape: Circle{Radius: 20}},
-			2: {Position: Vector2{X: 200, Y: 200}, Shape: Circle{Radius: 20}},
+			0: {
+				Position: Vector2{X: 990, Y: 50},
+				Velocity: Vector2{X: -2, Y: -2},
+				Shape:    Circle{Radius: 20},
+				Color:    color.White,
+			},
 		},
 	}
 

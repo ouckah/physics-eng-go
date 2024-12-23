@@ -1,8 +1,6 @@
 package main
 
 import (
-	"image/color"
-
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
@@ -21,9 +19,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, entity := range g.Engine.Entities {
 		switch shape := entity.Shape.(type) {
 		case Circle:
-			vector.DrawFilledCircle(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Radius), color.White, true)
+			vector.DrawFilledCircle(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Radius), entity.Color, true)
 		case Rectangle:
-			vector.DrawFilledRect(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Width), float32(shape.Height), color.White, true)
+			vector.DrawFilledRect(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Width), float32(shape.Height), entity.Color, true)
 		}
 	}
 }

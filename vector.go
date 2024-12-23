@@ -42,3 +42,9 @@ func (a Vector2) Dot(b Vector2) float64 {
 func (a Vector2) Cross(b Vector2) float64 {
 	return (a.X * b.Y) - (a.Y * b.X)
 }
+
+func (a Vector2) Distance(b Vector2) float64 {
+	diff := a.Sub(b)
+	dist := diff.Length()
+	return dist
+}

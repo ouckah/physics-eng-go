@@ -18,6 +18,12 @@ func main() {
 				Shape:    Circle{Radius: 20},
 				Color:    color.White,
 			},
+			1: {
+				Position: Vector2{X: 660, Y: 50},
+				Velocity: Vector2{X: 2, Y: -2},
+				Shape:    Circle{Radius: 20},
+				Color:    color.White,
+			},
 		},
 	}
 

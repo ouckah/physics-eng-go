@@ -23,3 +23,31 @@ func (body RigidBody) GetPosition() Vector2 {
 func (body RigidBody) GetVelocity() Vector2 {
 	return body.Velocity
 }
+
+func (body RigidBody) CollidesWith(other *RigidBody) bool {
+	switch shape := body.Shape.(type) {
+	case Circle:
+		switch otherShape := other.Shape.(type) {
+		case Circle:
+			distance := body.Position.Distance(other.Position)
+			return detectCircleCircleCollision(shape, otherShape, distance)
+		case Rectangle:
+			// TODO
+			return false
+		}
+	case Rectangle:
+		// switch otherShape := other.Shape.(type) {
+		// case Circle:
+		// 	// TODO
+		// 	return false
+		// case Rectangle:
+		// 	// TODO
+		// 	return false
+		// }
+	}
+	return false
+}
+
+func detectCircleCircleCollision(a Circle, b Circle, dist float64) bool {
+	return a.Radius+b.Radius >= dist
+}

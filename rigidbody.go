@@ -1,4 +1,4 @@
-package physicsenggo
+package main
 
 /*
 	A RigidBody knows its current velocity and position. See the RigidBody methods getPosition(), getAngle(), getVelocity().

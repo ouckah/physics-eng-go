@@ -1,4 +1,4 @@
-package physicsenggo
+package main
 
 import "math"
 

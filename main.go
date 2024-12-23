@@ -27,6 +27,7 @@ func main() {
 		},
 	}
 
+	// setup game engine
 	ebiten.SetWindowSize(1280, 720)
 	ebiten.SetWindowTitle("Physics Engine")
 	if err := ebiten.RunGame(

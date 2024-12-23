@@ -15,7 +15,9 @@ func (engine *PhysicsEngine) Update(deltaTime float64) {
 
 func (engine *PhysicsEngine) Gravity(velocity Vector2) {
 	for _, entity := range engine.Entities {
-		entity.Velocity = entity.Velocity.Add(velocity)
+		if entity.UseGravity {
+			entity.Velocity = entity.Velocity.Add(velocity)
+		}
 	}
 }
 
@@ -44,6 +46,22 @@ var (
 )
 
 func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
+
+	// color changes for visual effects
+	a.Color = Red
+	b.Color = Blue
+
+	// edge cases: a or b are frozen rigidbodies
+	// for now, simply reverse the velocity of the moving object
+	if a.IsFrozen {
+		b.Velocity = b.Velocity.MultiplyByScalar(-1)
+		return
+	}
+	if b.IsFrozen {
+		a.Velocity = a.Velocity.MultiplyByScalar(-1)
+		return
+	}
+
 	/*
 		Perfectly Elastic Collision Formula:
 		-----------------------------------
@@ -75,8 +93,4 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	vA, vB := a.Velocity, b.Velocity
 	a.Velocity = vB
 	b.Velocity = vA
-
-	// color changes for visual effects
-	a.Color = Red
-	b.Color = Blue
 }

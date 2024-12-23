@@ -14,6 +14,9 @@ type RigidBody struct {
 	Velocity, Position Vector2
 	Shape              Shape
 	Color              color.Color
+
+	UseGravity bool
+	IsFrozen   bool
 }
 
 func (body RigidBody) GetPosition() Vector2 {

@@ -51,6 +51,9 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	a.Color = Red
 	b.Color = Blue
 
+	// handle penetration
+	handlePenetration(a, b)
+
 	// edge cases: a or b are frozen rigidbodies
 	// for now, simply reverse the velocity of the moving object
 	if a.IsFrozen {
@@ -93,4 +96,46 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	vA, vB := a.Velocity, b.Velocity
 	a.Velocity = vB.MultiplyByScalar(0.8)
 	b.Velocity = vA.MultiplyByScalar(0.8)
+}
+
+func handlePenetration(a, b *RigidBody) {
+	switch shape := a.Shape.(type) {
+	case Circle:
+		switch otherShape := b.Shape.(type) {
+		case Circle:
+			n := a.Position.Sub(b.Position)
+			penetrationDistance := (shape.Radius + otherShape.Radius) - n.Length()
+
+			if penetrationDistance <= 0 {
+				return
+			}
+
+			penetrationVector := n.Normalize().MultiplyByScalar(penetrationDistance / 2)
+
+			newAPos, newBPos := a.Position, b.Position
+			if !a.IsFrozen && !b.IsFrozen {
+				newAPos = a.Position.Add(penetrationVector)
+				newBPos = b.Position.Sub(penetrationVector)
+			} else if a.IsFrozen {
+				newBPos = b.Position.Sub(penetrationVector.MultiplyByScalar(2))
+			} else if b.IsFrozen {
+				newAPos = a.Position.Add(penetrationVector.MultiplyByScalar(2))
+			}
+
+			a.Position = newAPos
+			b.Position = newBPos
+		case Rectangle:
+			// TODO
+			return
+		}
+	case Rectangle:
+		// switch otherShape := other.Shape.(type) {
+		// case Circle:
+		// 	// TODO
+		// 	return false
+		// case Rectangle:
+		// 	// TODO
+		// 	return false
+		// }
+	}
 }

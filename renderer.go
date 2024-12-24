@@ -10,8 +10,8 @@ type Game struct {
 }
 
 func (g *Game) Update() error {
-	g.Engine.Gravity(Vector2{X: 0, Y: 0.1})
-	g.Engine.Update(1)
+	g.Engine.Gravity(GRAVITY)
+	g.Engine.Update(DELTA_TIME)
 	return nil
 }
 
@@ -27,5 +27,5 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 1920, 1080
+	return SCREEN_WIDTH, SCREEN_HEIGHT
 }

@@ -57,11 +57,15 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	// edge cases: a or b are frozen rigidbodies
 	// for now, simply reverse the velocity of the moving object
 	if a.IsFrozen {
-		b.Velocity = b.Velocity.MultiplyByScalar(-0.8)
+		n := a.Position.Sub(b.Position).Normalize()
+		newBVel := n.MultiplyByScalar(-b.Velocity.Length() * ELASTICITY)
+		b.Velocity = newBVel
 		return
 	}
 	if b.IsFrozen {
-		a.Velocity = a.Velocity.MultiplyByScalar(-0.8)
+		n := b.Position.Sub(a.Position).Normalize()
+		newAVel := n.MultiplyByScalar(-a.Velocity.Length() * ELASTICITY)
+		a.Velocity = newAVel
 		return
 	}
 
@@ -94,8 +98,8 @@ func (engine *PhysicsEngine) handleCollision(a *RigidBody, b *RigidBody) {
 	*/
 
 	vA, vB := a.Velocity, b.Velocity
-	a.Velocity = vB.MultiplyByScalar(0.8)
-	b.Velocity = vA.MultiplyByScalar(0.8)
+	a.Velocity = vB.MultiplyByScalar(ELASTICITY)
+	b.Velocity = vA.MultiplyByScalar(ELASTICITY)
 }
 
 func handlePenetration(a, b *RigidBody) {
@@ -104,7 +108,7 @@ func handlePenetration(a, b *RigidBody) {
 		switch otherShape := b.Shape.(type) {
 		case Circle:
 			n := a.Position.Sub(b.Position)
-			penetrationDistance := (shape.Radius + otherShape.Radius) - n.Length()
+			penetrationDistance := (shape.Radius + otherShape.Radius) - n.Length() + BUFFER
 
 			if penetrationDistance <= 0 {
 				return

@@ -39,6 +39,38 @@ func main() {
 				UseGravity: false,
 				IsFrozen:   true,
 			},
+			3: {
+				Position: Vector2{X: 840, Y: 400},
+				Shape:    Circle{Radius: 40},
+				Color:    color.White,
+
+				UseGravity: false,
+				IsFrozen:   true,
+			},
+			4: {
+				Position: Vector2{X: 930, Y: 400},
+				Shape:    Circle{Radius: 40},
+				Color:    color.White,
+
+				UseGravity: false,
+				IsFrozen:   true,
+			},
+			5: {
+				Position: Vector2{X: 1020, Y: 400},
+				Shape:    Circle{Radius: 40},
+				Color:    color.White,
+
+				UseGravity: false,
+				IsFrozen:   true,
+			},
+			6: {
+				Position: Vector2{X: 1110, Y: 400},
+				Shape:    Circle{Radius: 40},
+				Color:    color.White,
+
+				UseGravity: false,
+				IsFrozen:   true,
+			},
 		},
 	}
 

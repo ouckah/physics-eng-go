@@ -25,15 +25,15 @@ func (c Circle) Type() string {
 	return "Circle"
 }
 
-type Rectangle struct {
+type Rect struct {
 	Width  float64
 	Height float64
 }
 
-func (r Rectangle) Area() float64 {
+func (r Rect) Area() float64 {
 	return r.Width * r.Height
 }
 
-func (r Rectangle) Type() string {
-	return "Rectangle"
+func (r Rect) Type() string {
+	return "Rect"
 }

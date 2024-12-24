@@ -28,7 +28,7 @@ func (sim BallSimulation) Setup(engine *PhysicsEngine) {
 		1: {
 			Position: Vector2{X: 660, Y: 50},
 			Velocity: Vector2{X: 2, Y: -2},
-			Shape:    Circle{Radius: 20},
+			Shape:    Rect{Width: 40, Height: 40},
 			Color:    color.White,
 
 			UseGravity: true,

@@ -20,7 +20,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		switch shape := entity.Shape.(type) {
 		case Circle:
 			vector.DrawFilledCircle(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Radius), entity.Color, true)
-		case Rectangle:
+		case Rect:
 			vector.DrawFilledRect(screen, float32(entity.Position.X), float32(entity.Position.Y), float32(shape.Width), float32(shape.Height), entity.Color, true)
 		}
 	}

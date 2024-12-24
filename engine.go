@@ -119,39 +119,50 @@ func handlePenetration(a, b *RigidBody) {
 	case Circle:
 		switch otherShape := b.Shape.(type) {
 		case Circle:
-			n := a.Position.Sub(b.Position)
-			penetrationDistance := (shape.Radius + otherShape.Radius) - n.Length() + BUFFER
-
-			if penetrationDistance <= 0 {
-				return
-			}
-
-			penetrationVector := n.Normalize().MultiplyByScalar(penetrationDistance / 2)
-
-			newAPos, newBPos := a.Position, b.Position
-			if !a.IsFrozen && !b.IsFrozen {
-				newAPos = a.Position.Add(penetrationVector)
-				newBPos = b.Position.Sub(penetrationVector)
-			} else if a.IsFrozen {
-				newBPos = b.Position.Sub(penetrationVector.MultiplyByScalar(2))
-			} else if b.IsFrozen {
-				newAPos = a.Position.Add(penetrationVector.MultiplyByScalar(2))
-			}
-
-			a.Position = newAPos
-			b.Position = newBPos
-		case Rectangle:
-			// TODO
-			return
+			handleCircleCirclePenetration(a, b, shape, otherShape)
+		case Rect:
+			handleCircleRectPenetration(a, b, shape, otherShape)
 		}
-	case Rectangle:
-		// switch otherShape := other.Shape.(type) {
-		// case Circle:
-		// 	// TODO
-		// 	return false
-		// case Rectangle:
-		// 	// TODO
-		// 	return false
-		// }
+	case Rect:
+		switch otherShape := b.Shape.(type) {
+		case Circle:
+			handleCircleRectPenetration(b, a, otherShape, shape)
+		case Rect:
+			handleRectRectPenetration(a, b, shape, otherShape)
+		}
 	}
+}
+
+func handleCircleCirclePenetration(a, b *RigidBody, circleA, circleB Circle) {
+	n := a.Position.Sub(b.Position)
+
+	penetrationDistance := (circleA.Radius + circleB.Radius) - n.Length() + BUFFER
+
+	if penetrationDistance <= 0 {
+		return
+	}
+
+	penetrationVector := n.Normalize().MultiplyByScalar(penetrationDistance / 2)
+
+	newAPos, newBPos := a.Position, b.Position
+	if !a.IsFrozen && !b.IsFrozen {
+		newAPos = a.Position.Add(penetrationVector)
+		newBPos = b.Position.Sub(penetrationVector)
+	} else if a.IsFrozen {
+		newBPos = b.Position.Sub(penetrationVector.MultiplyByScalar(2))
+	} else if b.IsFrozen {
+		newAPos = a.Position.Add(penetrationVector.MultiplyByScalar(2))
+	}
+
+	a.Position, b.Position = newAPos, newBPos
+}
+
+func handleCircleRectPenetration(a, b *RigidBody, circleA Circle, rectB Rect) {
+	// TODO
+	return
+}
+
+func handleRectRectPenetration(a, b *RigidBody, rectA, rectB Rect) {
+	// TODO
+	return
 }

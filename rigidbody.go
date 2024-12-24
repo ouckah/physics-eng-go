@@ -34,23 +34,28 @@ func (body RigidBody) CollidesWith(other *RigidBody) bool {
 		case Circle:
 			distance := body.Position.Distance(other.Position)
 			return detectCircleCircleCollision(shape, otherShape, distance)
-		case Rectangle:
-			// TODO
-			return false
+		case Rect:
+			return detectCircleRectCollision(shape, otherShape, 0)
 		}
-	case Rectangle:
-		// switch otherShape := other.Shape.(type) {
-		// case Circle:
-		// 	// TODO
-		// 	return false
-		// case Rectangle:
-		// 	// TODO
-		// 	return false
-		// }
+	case Rect:
+		switch otherShape := other.Shape.(type) {
+		case Circle:
+			return detectCircleRectCollision(otherShape, shape, 0)
+		case Rect:
+			return detectRectRectCollision(shape, otherShape, 0)
+		}
 	}
 	return false
 }
 
-func detectCircleCircleCollision(a Circle, b Circle, dist float64) bool {
+func detectCircleCircleCollision(a, b Circle, dist float64) bool {
 	return a.Radius+b.Radius >= dist
+}
+
+func detectCircleRectCollision(a Circle, b Rect, dist float64) bool {
+	return false
+}
+
+func detectRectRectCollision(a, b Rect, dist float64) bool {
+	return false
 }

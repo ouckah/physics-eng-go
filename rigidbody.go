@@ -56,9 +56,34 @@ func detectCircleCircleCollision(ax, ay, bx, by float64, a, b Circle) bool {
 }
 
 func detectCircleRectCollision(ax, ay, bx, by float64, a Circle, b Rect) bool {
-	return false
+	testX := ax
+	testY := ay
+
+	// which edge is closest?
+	if ax < bx {
+		testX = bx
+	} else if ax > bx+b.Width {
+		testX = bx + b.Width
+	}
+	if ay < by {
+		testY = by
+	} else if ay > by+b.Height {
+		testY = by + b.Height
+	}
+
+	// get distance from closest edges
+	distX := ax - testX
+	distY := ay - testY
+	distance := math.Sqrt((distX * distX) + (distY * distY))
+
+	// if the distance is less than the radius, collision!
+	return distance <= a.Radius
 }
 
 func detectRectRectCollision(ax, ay, bx, by float64, a, b Rect) bool {
-	return false
+	// are the sides of one rectangle touching the other?
+	return ax+a.Width >= bx &&
+		ax <= bx+b.Width &&
+		ay+a.Height >= by &&
+		ay <= by+b.Height
 }

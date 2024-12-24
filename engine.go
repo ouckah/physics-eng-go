@@ -3,14 +3,26 @@ package main
 import "image/color"
 
 type PhysicsEngine struct {
-	Entities map[int]*RigidBody
+	Entities   map[int]*RigidBody
+	Simulation Simulation
 }
 
 func (engine *PhysicsEngine) Update(deltaTime float64) {
+	if engine.Simulation != nil {
+		engine.Simulation.Update(engine)
+	}
+
 	for _, entity := range engine.Entities {
 		engine.updateEntityPosition(entity, deltaTime)
 		engine.simulateCollisions()
 	}
+}
+
+func (engine *PhysicsEngine) StartSimulation(sim Simulation) {
+	engine.Entities = map[int]*RigidBody{}
+	engine.Simulation = sim
+
+	sim.Setup(engine)
 }
 
 func (engine *PhysicsEngine) Gravity(velocity Vector2) {

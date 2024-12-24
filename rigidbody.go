@@ -1,6 +1,9 @@
 package main
 
-import "image/color"
+import (
+	"image/color"
+	"math"
+)
 
 /*
 	A RigidBody knows its current velocity and position. See the RigidBody methods getPosition(), getAngle(), getVelocity().
@@ -32,30 +35,30 @@ func (body RigidBody) CollidesWith(other *RigidBody) bool {
 	case Circle:
 		switch otherShape := other.Shape.(type) {
 		case Circle:
-			distance := body.Position.Distance(other.Position)
-			return detectCircleCircleCollision(shape, otherShape, distance)
+			return detectCircleCircleCollision(body.Position.X, body.Position.Y, other.Position.X, other.Position.Y, shape, otherShape)
 		case Rect:
-			return detectCircleRectCollision(shape, otherShape, 0)
+			return detectCircleRectCollision(body.Position.X, body.Position.Y, other.Position.X, other.Position.Y, shape, otherShape)
 		}
 	case Rect:
 		switch otherShape := other.Shape.(type) {
 		case Circle:
-			return detectCircleRectCollision(otherShape, shape, 0)
+			return detectCircleRectCollision(body.Position.X, body.Position.Y, other.Position.X, other.Position.Y, otherShape, shape)
 		case Rect:
-			return detectRectRectCollision(shape, otherShape, 0)
+			return detectRectRectCollision(body.Position.X, body.Position.Y, other.Position.X, other.Position.Y, shape, otherShape)
 		}
 	}
 	return false
 }
 
-func detectCircleCircleCollision(a, b Circle, dist float64) bool {
+func detectCircleCircleCollision(ax, ay, bx, by float64, a, b Circle) bool {
+	dist := math.Sqrt(math.Pow(ax-bx, 2) + math.Pow(ay-by, 2))
 	return a.Radius+b.Radius >= dist
 }
 
-func detectCircleRectCollision(a Circle, b Rect, dist float64) bool {
+func detectCircleRectCollision(ax, ay, bx, by float64, a Circle, b Rect) bool {
 	return false
 }
 
-func detectRectRectCollision(a, b Rect, dist float64) bool {
+func detectRectRectCollision(ax, ay, bx, by float64, a, b Rect) bool {
 	return false
 }
